@@ -24,12 +24,14 @@ def main():
         creds = tools.run_flow(flow, store)
     service = build('gmail', 'v1', http=creds.authorize(Http()))
 
-    # Call the Gmail API
+    # Call the Gmail Api to get list of inital 100 message ids
     msg_list = service.users().messages().list(userId='me').execute()
     counter = 0
     msg_counter = 0
     headers = ['Subject']
     words = defaultdict(int)
+
+	# Loop through while the nextPageToken is not in the msg_list
     while 'nextPageToken' in msg_list:
         counter += 1
         message_ids = msg_list['messages']
