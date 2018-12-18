@@ -74,7 +74,7 @@ def main():
             page_token = msg_list['nextPageToken']
             msg_list = service.users().messages().list(userId='me', pageToken=page_token).execute()
         else: # all emails have been read 
-            print(gameboy_words)
+            pprint(gameboy_words)
             break
 
 if __name__ == '__main__':
