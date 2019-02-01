@@ -51,7 +51,7 @@ def main():
             subject = [header['value'] for header in message['payload']['headers'] if header['name'] == 'Subject'][0]
             subject_words = re.sub(r'\s*[^A-Za-z]+\s*', ' ', subject).lower().split()
             
-            # Extract the Budy and Decode it into plane text
+            # Extract the Body and Decode it into plane text
             if 'parts' in message['payload']:
                 body_raw = message['payload']['parts'][0]['body']['data'].replace("-", "+").replace("_", "/")
                 body = b64decode(body_raw).decode('utf-8')
