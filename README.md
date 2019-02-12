@@ -1,11 +1,13 @@
 # game-boy
 
-Inspired by the game Gameboy from the podcast [If I Were You](https://headgum.com/if-i-were-you)<br>
-This app goes through all of your emails looking for words that only appear in one email
+Inspired by the game <i>Gameboy<i> from the podcast <i>[If I Were You](https://headgum.com/if-i-were-you)<i>.
+  
+The goal of Gameboy is to think of a word to that will only appear in one of your emails.<br>
+This script finds all possible solutions by going through your emails and keeping track of words that only appear once.
 
 ### Instalation 
-After cloning follow the insturctions in the [Python QuickStart Guide](https://developers.google.com/gmail/api/quickstart/python) 
-You will need to set up a credentials.json and install the google client library
+After cloning follow the insturctions in the [Python QuickStart Guide](https://developers.google.com/gmail/api/quickstart/python).<br>
+You will need to set up a credentials.json and install the google client library.
 
 ### Running 
 ```
