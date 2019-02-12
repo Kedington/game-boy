@@ -11,9 +11,6 @@ import re
 SCOPES = 'https://www.googleapis.com/auth/gmail.readonly'
 
 def main():
-	"""Shows basic usage of the Gmail API.
-	Lists the user's Gmail labels.
-	"""
 	# The file token.json stores the user's access and refresh tokens, and is
 	# created automatically when the authorization flow completes for the first
 	# time.
@@ -27,8 +24,6 @@ def main():
 	# Call the Gmail Api to get list of inital 100 message ids
 	msg_list = service.users().messages().list(userId='me').execute()
 	counter = 0
-	msg_counter = 0
-	headers = ['Subject']
 
 	words = set()
 	gameboy_words = set()
@@ -38,21 +33,20 @@ def main():
 		counter += 1
 		message_ids = msg_list['messages']
 		for message_node in message_ids:
-			message_id = message_node['id'] 
-			message = service.users().messages().get(userId='me', id=message_id, fields='payload(headers, parts/body/data)').execute()
+			message = service.users().messages().get(userId='me', id=message_node['id'], fields='payload(headers, parts/body/data)').execute()
 
 			# Extract Subject from the headers
 			subject = [header['value'] for header in message['payload']['headers'] if header['name'] == 'Subject'][0]
-			subject_words = re.sub(r'\s*[^A-Za-z]+\s*', ' ', subject).lower().split()
+			subject_words = parse_string(subject)
 			
 			# Extract the Body and Decode it into plane text
 			if 'parts' in message['payload']:
 				body_raw = message['payload']['parts'][0]['body']['data'].replace("-", "+").replace("_", "/")
 				body = b64decode(body_raw).decode('utf-8')
-				body_words = re.sub(r'\s*[^A-Za-z]+\s*', ' ', body).lower().split()
+				body_words = parse_string(body)
 				total_words = subject_words + body_words
 			else:	
-				total_words = body_words
+				total_words = subject_words
 
 			# Loop through all the words adding them to a set that keeps track of unique words and a set that holds repeated words
 			for word in total_words:
