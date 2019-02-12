@@ -1,11 +1,8 @@
-from __future__ import print_function
 from googleapiclient.discovery import build
 from httplib2 import Http
 from oauth2client import file, client, tools
-from time import sleep
-from pprint import pprint 
 from base64 import b64decode
-import re
+from pprint import pprint 
 
 # If modifying these scopes, delete the file token.json.
 SCOPES = 'https://www.googleapis.com/auth/gmail.readonly'
@@ -23,16 +20,13 @@ def main():
 
 	# Call the Gmail Api to get list of inital 100 message ids
 	msg_list = service.users().messages().list(userId='me').execute()
-	counter = 0
 
 	words = set()
 	gameboy_words = set()
 
 	# Loop through while the nextPageToken is not in the msg_list
 	while True:
-		counter += 1
-		message_ids = msg_list['messages']
-		for message_node in message_ids:
+		for message_node in msg_list['messages']:
 			message = service.users().messages().get(userId='me', id=message_node['id'], fields='payload(headers, parts/body/data)').execute()
 
 			# Extract Subject from the headers
