@@ -2,7 +2,7 @@
 
 Inspired by the game <i>Gameboy</i> from the podcast <i>[If I Were You](https://headgum.com/if-i-were-you)</i>.
   
-The goal of Gameboy is to think of a word to that will only appear in one of your emails.<br>
+The goal of Gameboy is to think of a word that only appears in one of your emails.<br>
 This script finds all possible solutions by going through your emails and keeping track of words that only appear once.
 
 ### Instalation 
