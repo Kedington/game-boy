@@ -29,18 +29,18 @@ def main():
 		for message_node in msg_list['messages']:
 			message = service.users().messages().get(userId='me', id=message_node['id'], fields='payload(headers, parts/body/data)').execute()
 
+			total_words = []
+
 			# Extract Subject from the headers
-			subject = [header['value'] for header in message['payload']['headers'] if header['name'] == 'Subject'][0]
-			subject_words = parse_string(subject)
+			subject = [header['value'] for header in message['payload']['headers'] if header['name'] == 'Subject']
+			if subject:
+				total_words = parse_string(subject[0])
 			
 			# Extract the Body and Decode it into plane text
 			if 'parts' in message['payload']:
 				body_raw = message['payload']['parts'][0]['body']['data'].replace("-", "+").replace("_", "/")
 				body = b64decode(body_raw).decode('utf-8')
-				body_words = parse_string(body)
-				total_words = subject_words + body_words
-			else:	
-				total_words = subject_words
+				total_words += parse_string(body)
 
 			# Loop through all the words adding them to a set that keeps track of unique words and a set that holds repeated words
 			for word in total_words:
@@ -51,6 +51,7 @@ def main():
 						gameboy_words.remove(word)
 						words.add(word)
 
+		print(len(gameboy_words))
 		# If there is still another page continue to get the next list of emails
 		if 'nextPageToken' in msg_list:
 			page_token = msg_list['nextPageToken']
